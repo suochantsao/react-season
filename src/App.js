@@ -1,27 +1,24 @@
 // import logo from "./logo.svg";
 import "./App.css";
 import React from "react";
+import SeasonDisplay from "./SeasonDisplay";
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
+  // constructor(props) {
+  //   super(props);
 
-    // THIS IS THE ONLY TIME we do direct assignment
-    // to this.state
-    this.state = { lat: null };
+  //   // THIS IS THE ONLY TIME we do direct assignment
+  //   // to this.state
+  //   this.state = { lat: null };
+  // }
 
-    window.navigator.geolocation.getCurrentPosition(
-      (position) => {
-        // we called setState function here
-        this.setState({ lat: position.coords.latitude });
-      },
-      (err) => {
-        this.setState({ errorMessage: err.message });
-      }
-    );
-  }
+  state = { lat: null, errorMessage: "" };
 
   componentDidMount() {
+    window.navigator.geolocation.getCurrentPosition(
+      (position) => this.setState({ lat: position.coords.latitude }),
+      (err) => this.setState({ errorMessage: err.message })
+    );
     console.log("My component was rendered to the screen");
   }
 
@@ -36,7 +33,9 @@ class App extends React.Component {
     }
 
     if (!this.state.errorMessage && this.state.lat) {
-      return <div>Latitude: {this.state.lat}</div>;
+      // return <div>Latitude: {this.state.lat}</div>;
+      // Passing state as props
+      return <SeasonDisplay lat={this.state.lat} />;
     }
 
     return <div>Loading!</div>;
